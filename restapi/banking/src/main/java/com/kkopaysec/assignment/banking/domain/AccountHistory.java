@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccountHistory {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,6 +36,15 @@ public class AccountHistory {
         this.accountStatus = accountStatus;
         this.amount = amount;
         this.businessDate = businessDate;
+    }
+
+    public static AccountHistory createHistory(Account account, AccountStatus accountStatus, BigDecimal amount, String businessDate) {
+        return AccountHistory.builder()
+                .account(account)
+                .accountStatus(accountStatus)
+                .amount(amount)
+                .businessDate(businessDate)
+                .build();
     }
 
     public void setAccount(Account account) {

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -26,12 +26,20 @@ public class Member {
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String name, int age, String membershipDate, List<Account> accounts) {
+    private Member(Long id, String name, int age, String membershipDate) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.membershipDate = membershipDate;
         this.accounts = new ArrayList<>();
+    }
+
+    public static Member createMember(String name, int age, String membershipDate) {
+        return Member.builder()
+                .name(name)
+                .age(age)
+                .membershipDate(membershipDate)
+                .build();
     }
 
     public void addAccounts(Account account) {

@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account implements Serializable {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "account_number")
@@ -30,11 +30,18 @@ public class Account implements Serializable {
     private List<AccountHistory> accountHistories = new ArrayList<>();
 
     @Builder
-    public Account(Long id, String accountNumber, Member member, List<AccountHistory> accountHistories) {
+    private Account(Long id, String accountNumber, Member accountHolder) {
         this.id = id;
         this.accountNumber = accountNumber;
-        this.accountHolder = member;
+        this.accountHolder = accountHolder;
         this.accountHistories = new ArrayList<>();
+    }
+
+    public static Account createAccount(Member accountHolder, String accountNumber) {
+        return Account.builder()
+                .accountHolder(accountHolder)
+                .accountNumber(accountNumber)
+                .build();
     }
 
     public void belongsTo(Member member) {

@@ -38,21 +38,15 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
         setupMember();
         setupAccount();
         setupAccountHistory();
-
     }
 
     private void setupMember() throws IOException {
         List<Member> members = readLineFromFile("data/member.csv")
                 .map(line -> {
-                    return Member.builder()
-                            .name(line[1])
-                            .age(Integer.parseInt(line[2]))
-                            .membershipDate(line[3])
-                            .build();
+                    return Member.createMember(line[1], Integer.parseInt(line[2]), line[3]);
                 }).collect(Collectors.toList());
 
         memberRepository.saveAll(members);
@@ -62,11 +56,8 @@ public class DataLoader implements ApplicationRunner {
         List<Account> accounts = readLineFromFile("data/account.csv")
                 .map(line -> {
                     Member foundMember = memberRepository.findById(Long.parseLong(line[0]))
-                            .orElseThrow(() -> new MemberNotFoundException("member를 찾을 수 없습니다"));
-                    return Account.builder()
-                            .member(foundMember)
-                            .accountNumber(line[1])
-                            .build();
+                            .orElseThrow(() -> new MemberNotFoundException("member를 찾을 수 없습니다."));
+                    return Account.createAccount(foundMember, line[1]);
                 }).collect(Collectors.toList());
 
         accountRepository.saveAll(accounts);
@@ -76,13 +67,8 @@ public class DataLoader implements ApplicationRunner {
         List<AccountHistory> accountHistories = readLineFromFile("data/history.csv")
                 .map(line -> {
                     Account foundAccount = accountRepository.findByAccountNumber(line[0])
-                            .orElseThrow(() -> new NotFoundException("account를 찾을 수 없습니다"));
-                    return AccountHistory.builder()
-                            .account(foundAccount)
-                            .accountStatus(AccountStatus.valueOf(line[1]))
-                            .amount(new BigDecimal(line[2]))
-                            .businessDate(line[3])
-                            .build();
+                            .orElseThrow(() -> new NotFoundException("account를 찾을 수 없습니다."));
+                    return AccountHistory.createHistory(foundAccount, AccountStatus.valueOf(line[1]), new BigDecimal(line[2]), line[3]);
                 }).collect(Collectors.toList());
 
         accountHistoryRepository.saveAll(accountHistories);
