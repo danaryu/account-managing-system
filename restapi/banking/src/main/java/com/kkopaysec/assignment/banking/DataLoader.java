@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -45,14 +46,12 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void setupMember() throws IOException {
-        List<Member> members = getListFromFile("data/member.csv").stream()
+        List<Member> members = readLineFromFile("data/member.csv")
                 .map(line -> {
-                    String[] split = line.split(",");
-                    System.out.println("split[1] = " + split[1]);
                     return Member.builder()
-                            .name(split[1])
-                            .age(Integer.parseInt(split[2]))
-                            .membershipDate(split[3])
+                            .name(line[1])
+                            .age(Integer.parseInt(line[2]))
+                            .membershipDate(line[3])
                             .build();
                 }).collect(Collectors.toList());
 
@@ -60,15 +59,13 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void setupAccount() throws IOException {
-        List<Account> accounts = getListFromFile("data/account.csv").stream()
+        List<Account> accounts = readLineFromFile("data/account.csv")
                 .map(line -> {
-                    String[] split = line.split(",");
-                    Member foundMember = memberRepository.findById(Long.parseLong(split[0]))
+                    Member foundMember = memberRepository.findById(Long.parseLong(line[0]))
                             .orElseThrow(() -> new MemberNotFoundException("member를 찾을 수 없습니다"));
-
                     return Account.builder()
                             .member(foundMember)
-                            .accountNumber(split[1])
+                            .accountNumber(line[1])
                             .build();
                 }).collect(Collectors.toList());
 
@@ -76,29 +73,30 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void setupAccountHistory() throws IOException {
-        List<AccountHistory> accountHistories = getListFromFile("data/history.csv").stream()
+        List<AccountHistory> accountHistories = readLineFromFile("data/history.csv")
                 .map(line -> {
-                    String[] split = line.split(",");
-                    Account foundAccount = accountRepository.findByAccountNumber(split[0])
-                            .orElseThrow(() -> new NotFoundException("member를 찾을 수 없습니다"));
-
+                    Account foundAccount = accountRepository.findByAccountNumber(line[0])
+                            .orElseThrow(() -> new NotFoundException("account를 찾을 수 없습니다"));
                     return AccountHistory.builder()
                             .account(foundAccount)
-                            .accountStatus(AccountStatus.valueOf(split[1]))
-                            .amount(new BigDecimal(split[2]))
-                            .businessDate(split[3])
+                            .accountStatus(AccountStatus.valueOf(line[1]))
+                            .amount(new BigDecimal(line[2]))
+                            .businessDate(line[3])
                             .build();
                 }).collect(Collectors.toList());
 
         accountHistoryRepository.saveAll(accountHistories);
     }
 
-    private List<String> getListFromFile(String path) throws IOException {
+    private Stream<String[]> readLineFromFile(String path) throws IOException {
         Resource resource = new ClassPathResource(path);
-        List<String> listFromFile = Files.readAllLines(resource.getFile().toPath(), StandardCharsets.UTF_8);
-        listFromFile.remove(0);
+        List<String> linesFromFile = Files.readAllLines(resource.getFile().toPath(), StandardCharsets.UTF_8);
+        linesFromFile.remove(0); // 첫번째 행 제거
+        return processLineByLine(linesFromFile);
+    }
 
-        return listFromFile;
+    private Stream<String[]> processLineByLine(List<String> linesFromFile) {
+        return linesFromFile.stream().map(line -> line.split(","));
     }
 
 }
