@@ -26,6 +26,8 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	// logback
 	implementation 'org.slf4j:jcl-over-slf4j'
+	// validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'ch.qos.logback:logback-classic'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
