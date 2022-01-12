@@ -1,4 +1,4 @@
-package com.kkopaysec.assignment.banking.dto;
+package com.kkopaysec.assignment.banking.controller.dto;
 
 import com.kkopaysec.assignment.banking.domain.Member;
 import lombok.Getter;
@@ -30,5 +30,6 @@ public class MemberResponse {
                 .map(member -> of(member))
                 .collect(Collectors.toList());
     }
+
 }
 
