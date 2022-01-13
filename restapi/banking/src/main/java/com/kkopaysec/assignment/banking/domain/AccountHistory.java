@@ -39,12 +39,13 @@ public class AccountHistory {
     }
 
     public static AccountHistory createHistory(Account account, AccountStatus accountStatus, BigDecimal amount, String businessDate) {
-        return AccountHistory.builder()
-                .account(account)
+        AccountHistory accountHistory = AccountHistory.builder()
                 .accountStatus(accountStatus)
                 .amount(amount)
                 .businessDate(businessDate)
                 .build();
+        accountHistory.setAccount(account);
+        return accountHistory;
     }
 
     public void setAccount(Account account) {
