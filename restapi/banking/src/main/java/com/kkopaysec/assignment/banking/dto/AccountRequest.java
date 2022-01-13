@@ -1,5 +1,6 @@
 package com.kkopaysec.assignment.banking.dto;
 
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ public class AccountRequest {
     private String accountNumber;
 */
 
+    @ApiParam(value = "계좌 사용자 ID")
     @NotNull(message = "계좌 사용자 ID는 반드시 입력해야합니다.")
     private Long accountHolderId;
 
