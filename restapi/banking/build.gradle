@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.slf4j:jcl-over-slf4j'
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// random number 생성
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 	implementation 'ch.qos.logback:logback-classic'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
