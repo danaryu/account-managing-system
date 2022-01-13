@@ -48,7 +48,6 @@ class AccountHistoryRepositoryTest {
                 .build();
         account.belongsTo(member);
         accountRepository.save(account);
-
     }
 
     @Test
@@ -64,8 +63,6 @@ class AccountHistoryRepositoryTest {
 
         assertThat(account.getAccountHistories().get(0).getAmount()).isEqualTo(accountHistory.getAmount());
         assertThat(account.getAccountHistories().get(0).getBusinessDate()).isEqualTo(accountHistory.getBusinessDate());
-
     }
-
 
 }

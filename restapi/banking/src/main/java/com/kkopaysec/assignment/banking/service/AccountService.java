@@ -56,5 +56,4 @@ public class AccountService {
         }
         return randomAccountNumber;
     }
-
 }
