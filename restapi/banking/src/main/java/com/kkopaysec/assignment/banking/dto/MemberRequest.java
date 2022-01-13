@@ -1,9 +1,12 @@
-package com.kkopaysec.assignment.banking.controller.dto;
+package com.kkopaysec.assignment.banking.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.*;
 
 @Getter
+@NoArgsConstructor
 public class MemberRequest {
 
     @NotBlank(message = "이름은 필수 값입니다.")

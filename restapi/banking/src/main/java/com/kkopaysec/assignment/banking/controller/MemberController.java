@@ -1,7 +1,7 @@
 package com.kkopaysec.assignment.banking.controller;
 
-import com.kkopaysec.assignment.banking.controller.dto.MemberRequest;
-import com.kkopaysec.assignment.banking.controller.dto.MemberResponse;
+import com.kkopaysec.assignment.banking.dto.MemberRequest;
+import com.kkopaysec.assignment.banking.dto.MemberResponse;
 import com.kkopaysec.assignment.banking.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,13 @@ public class MemberController {
     
     @GetMapping
     public ResponseEntity<List<MemberResponse>> findAllMembers() {
-        List<MemberResponse> members = memberService.getMembers();
+        List<MemberResponse> members = memberService.findAllMembers();
         return ResponseEntity.ok(members);
     }
 
     @GetMapping("{memberId}")
     public ResponseEntity<MemberResponse> findMemberById(@PathVariable Long memberId) {
-        MemberResponse member = memberService.getMember(memberId);
+        MemberResponse member = memberService.findMemberById(memberId);
         return ResponseEntity.ok(member);
     }
 

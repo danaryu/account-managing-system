@@ -4,7 +4,6 @@ import com.kkopaysec.assignment.banking.domain.Account;
 import com.kkopaysec.assignment.banking.domain.AccountHistory;
 import com.kkopaysec.assignment.banking.domain.AccountStatus;
 import com.kkopaysec.assignment.banking.domain.Member;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @Transactional

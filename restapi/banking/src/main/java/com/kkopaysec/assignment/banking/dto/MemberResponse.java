@@ -1,12 +1,14 @@
-package com.kkopaysec.assignment.banking.controller.dto;
+package com.kkopaysec.assignment.banking.dto;
 
 import com.kkopaysec.assignment.banking.domain.Member;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@NoArgsConstructor
 public class MemberResponse {
 
     private Long id;
@@ -27,7 +29,7 @@ public class MemberResponse {
 
     public static List<MemberResponse> toList(List<Member> members) {
         return members.stream()
-                .map(member -> of(member))
+                .map(MemberResponse::of)
                 .collect(Collectors.toList());
     }
 
