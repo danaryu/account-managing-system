@@ -38,10 +38,12 @@ public class Account implements Serializable {
     }
 
     public static Account createAccount(Member accountHolder, String accountNumber) {
-        return Account.builder()
+        Account account = Account.builder()
                 .accountHolder(accountHolder)
                 .accountNumber(accountNumber)
                 .build();
+        account.belongsTo(accountHolder);
+        return account;
     }
 
     public void belongsTo(Member member) {
