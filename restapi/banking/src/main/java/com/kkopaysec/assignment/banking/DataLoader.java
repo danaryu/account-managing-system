@@ -4,7 +4,7 @@ import com.kkopaysec.assignment.banking.domain.Account;
 import com.kkopaysec.assignment.banking.domain.AccountHistory;
 import com.kkopaysec.assignment.banking.domain.AccountStatus;
 import com.kkopaysec.assignment.banking.domain.Member;
-import com.kkopaysec.assignment.banking.exception.MemberNotFoundException;
+import com.kkopaysec.assignment.banking.exception.ErrorType;
 import com.kkopaysec.assignment.banking.exception.NotFoundException;
 import com.kkopaysec.assignment.banking.repository.AccountHistoryRepository;
 import com.kkopaysec.assignment.banking.repository.AccountRepository;
@@ -56,7 +56,7 @@ public class DataLoader implements ApplicationRunner {
         List<Account> accounts = readLineFromFile("data/account.csv")
                 .map(line -> {
                     Member foundMember = memberRepository.findById(Long.parseLong(line[0]))
-                            .orElseThrow(() -> new MemberNotFoundException("member를 찾을 수 없습니다."));
+                            .orElseThrow(() -> new NotFoundException(ErrorType.MEMBER_NOT_FOUND));
                     return Account.createAccount(foundMember, line[1]);
                 }).collect(Collectors.toList());
 
@@ -67,7 +67,7 @@ public class DataLoader implements ApplicationRunner {
         List<AccountHistory> accountHistories = readLineFromFile("data/history.csv")
                 .map(line -> {
                     Account foundAccount = accountRepository.findByAccountNumber(line[0])
-                            .orElseThrow(() -> new NotFoundException("account를 찾을 수 없습니다."));
+                            .orElseThrow(() -> new NotFoundException(ErrorType.ACCOUNT_NOT_FOUND));
                     return AccountHistory.createHistory(foundAccount, AccountStatus.valueOf(line[1]), new BigDecimal(line[2]), line[3]);
                 }).collect(Collectors.toList());
 

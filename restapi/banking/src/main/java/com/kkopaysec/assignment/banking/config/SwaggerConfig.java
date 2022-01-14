@@ -2,6 +2,8 @@ package com.kkopaysec.assignment.banking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,7 +18,12 @@ import java.util.Set;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("redirect:/swagger-ui.html");
+    }
 
     @Bean
     public Docket api() {
@@ -32,9 +39,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Banking Service")
-                .description("Banking Service powered by danadot")
-                .contact(new Contact("Dana Ryu", "http://github.com/danaryu", "dana40426@gmail.com"))
+                .title("Account Management Service")
+                .description("Account Management Service powered by danadot")
+                .contact(new Contact("danadot", "http://github.com/danaryu", "dana40426@gmail.com"))
                 .version("1.0")
                 .build();
     }
