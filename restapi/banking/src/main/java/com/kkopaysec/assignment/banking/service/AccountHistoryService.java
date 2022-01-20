@@ -70,11 +70,10 @@ public class AccountHistoryService {
         accountHistoryRepository.save(history);
     }
 
-    public List<DepositByMemberAccountResponse> findAccountDepositByMemberId(Long memberId) {
+    public List<DepositByMemberAccount> findAccountDepositByMemberId(Long memberId) {
         Member foundMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.MEMBER_NOT_FOUND));
-        List<DepositByMemberAccount> deposits = accountHistoryRepository.findAllDepositsByMemberAccount(foundMember);
-        return DepositByMemberAccountResponse.toList(deposits);
+        return accountHistoryRepository.findAllDepositsByMemberAccount(foundMember);
     }
 
 
@@ -92,14 +91,12 @@ public class AccountHistoryService {
         return DepositByMemberAgeResponse.mapToList(ageMap, depositMap);
     }
 
-    public DepositByMemberAccountResponse findAccountDepositSumByYear(String year) {
-        DepositSumByYear depositSumByYear = accountHistoryRepository.findDepositSumByYear(year);
-        return DepositSumByYearResponse.of(depositSumByYear);
+    public DepositSumByYear findAccountDepositSumByYear(String year) {
+        return accountHistoryRepository.findDepositSumByYear(year);
     }
 
-    public List<DepositByPeriodResponse> findAccountDepositByPeriod(DepositByPeriodRequest depositByPeriodRequest) {
-        List<DepositByPeriod> deposits = accountHistoryRepository.findAllDepositByPeriod(depositByPeriodRequest.getStartDate(),
+    public List<DepositByPeriod> findAccountDepositByPeriod(DepositByPeriodRequest depositByPeriodRequest) {
+        return accountHistoryRepository.findAllDepositByPeriod(depositByPeriodRequest.getStartDate(),
                 depositByPeriodRequest.getEndDate());
-        return DepositByPeriodResponse.toList(deposits);
     }
 }

@@ -63,8 +63,8 @@ public class AccountHistoryController {
     @GetMapping("/account/member/{memberId}")
     @ApiOperation(value = "사용자 ID로 예치금 내역 조회하기", notes = "<big>memberId</big>로 <strong>예치금 내역</Strong>을 조회합니다." +
                                                                "<br> ** 예치금 = 입금액 - 출금액 </br>")
-    public ResponseEntity<List<DepositByMemberAccountResponse>> findAccountDepositByMemberId(@PathVariable Long memberId) {
-        List<DepositByMemberAccountResponse> deposits = accountHistoryService.findAccountDepositByMemberId(memberId);
+    public ResponseEntity<List<DepositByMemberAccount>> findAccountDepositByMemberId(@PathVariable Long memberId) {
+        List<DepositByMemberAccount> deposits = accountHistoryService.findAccountDepositByMemberId(memberId);
         return ResponseEntity.ok(deposits);
     }
 
@@ -79,8 +79,8 @@ public class AccountHistoryController {
     @GetMapping("/account/year/{year}")
     @ApiOperation(value = "년도 별 예치금 총액 조회하기", notes = "<strong>년도를 입력받아 예치금 총액</Strong>을 조회합니다." +
             "<br> ** 예치금 = 입금액 - 출금액 </br>")
-    public ResponseEntity<DepositByMemberAccountResponse> findAccountDepositSumByYear(@PathVariable String year) {
-        DepositByMemberAccountResponse depositSum = accountHistoryService.findAccountDepositSumByYear(year);
+    public ResponseEntity<DepositSumByYear> findAccountDepositSumByYear(@PathVariable String year) {
+        DepositSumByYear depositSum = accountHistoryService.findAccountDepositSumByYear(year);
         return ResponseEntity.ok(depositSum);
     }
 
@@ -88,8 +88,8 @@ public class AccountHistoryController {
     @ApiOperation(value = "기간 별, 사용자 별 예치금 조회하기", notes = "<strong>시작일과 종료일을 입력받아 사용자별 예치금</Strong>을 조회합니다." +
             "<br>예치금이 가장 많은 순서대로 조회합니다. </br>" +
             "<br> ** 예치금 = 입금액 - 출금액 </br>")
-    public ResponseEntity<List<DepositByPeriodResponse>> findAccountDepositByPeriod(DepositByPeriodRequest depositByPeriodRequest) {
-        List<DepositByPeriodResponse> deposits = accountHistoryService.findAccountDepositByPeriod(depositByPeriodRequest);
+    public ResponseEntity<List<DepositByPeriod>> findAccountDepositByPeriod(DepositByPeriodRequest depositByPeriodRequest) {
+        List<DepositByPeriod> deposits = accountHistoryService.findAccountDepositByPeriod(depositByPeriodRequest);
         return ResponseEntity.ok(deposits);
     }
 
