@@ -9,6 +9,7 @@ import com.kkopaysec.assignment.banking.exception.NotFoundException;
 import com.kkopaysec.assignment.banking.repository.AccountHistoryRepository;
 import com.kkopaysec.assignment.banking.repository.AccountRepository;
 import com.kkopaysec.assignment.banking.repository.MemberRepository;
+import com.kkopaysec.assignment.banking.repository.accounthistory.depositquery.DepositQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ import java.util.Map;
 public class AccountHistoryService {
 
     private final AccountHistoryRepository accountHistoryRepository;
+    private final DepositQueryRepository depositQueryRepository;
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
 
@@ -73,12 +75,12 @@ public class AccountHistoryService {
     public List<DepositByMemberAccount> findAccountDepositByMemberId(Long memberId) {
         Member foundMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.MEMBER_NOT_FOUND));
-        return accountHistoryRepository.findAllDepositsByMemberAccount(foundMember);
+        return depositQueryRepository.findAllDepositsByMemberAccount(foundMember);
     }
 
 
     public List<DepositByMemberAgeResponse> findAccountDepositByMemberAge() {
-        List<AgeAndDepositByMember> ageAndDepositByMember = accountHistoryRepository.findAllAgeAndDepositByMember();
+        List<AgeAndDepositByMember> ageAndDepositByMember = depositQueryRepository.findAllAgeAndDepositByMember();
 
         Map<Integer, BigDecimal> depositMap = new HashMap<>();
         Map<Integer, Integer> ageMap = new HashMap<>();
@@ -92,11 +94,11 @@ public class AccountHistoryService {
     }
 
     public DepositSumByYear findAccountDepositSumByYear(String year) {
-        return accountHistoryRepository.findDepositSumByYear(year);
+        return depositQueryRepository.findDepositSumByYear(year);
     }
 
     public List<DepositByPeriod> findAccountDepositByPeriod(DepositByPeriodRequest depositByPeriodRequest) {
-        return accountHistoryRepository.findAllDepositByPeriod(depositByPeriodRequest.getStartDate(),
+        return depositQueryRepository.findAllDepositByPeriod(depositByPeriodRequest.getStartDate(),
                 depositByPeriodRequest.getEndDate());
     }
 }
