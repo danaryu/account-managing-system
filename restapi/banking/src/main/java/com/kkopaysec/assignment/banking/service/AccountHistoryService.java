@@ -31,7 +31,8 @@ public class AccountHistoryService {
     private final MemberRepository memberRepository;
 
     public List<AccountHistoryResponse> findAllHistories() {
-        List<AccountHistory> histories = accountHistoryRepository.findAll();
+        //List<AccountHistory> histories = accountHistoryRepository.findAll();
+        List<AccountHistory> histories = accountHistoryRepository.findAllWithAccountAndMember();
         return AccountHistoryResponse.toList(histories);
     }
 

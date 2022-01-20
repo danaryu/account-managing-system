@@ -25,7 +25,8 @@ public class AccountService {
     private final MemberRepository memberRepository;
 
     public List<AccountResponse> findAllAccounts() {
-        return AccountResponse.toList(accountRepository.findAll());
+        //return AccountResponse.toList(accountRepository.findAll());
+        return AccountResponse.toList(accountRepository.findAllWithMember());
     }
 
     public AccountResponse findAccountById(Long accountId) {

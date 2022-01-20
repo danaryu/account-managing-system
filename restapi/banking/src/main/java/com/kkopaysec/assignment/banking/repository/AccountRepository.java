@@ -13,4 +13,9 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByAccountNumber(String accountNumber);
+
+    @Query("select a " +
+            "from Account a " +
+            "join fetch a.accountHolder ah")
+    List<Account> findAllWithMember();
 }

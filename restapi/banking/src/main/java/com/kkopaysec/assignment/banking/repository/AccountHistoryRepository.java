@@ -61,4 +61,10 @@ public interface AccountHistoryRepository extends JpaRepository<AccountHistory, 
             "group by m.id, m.name " +
             "order by 3 desc")
     List<DepositByPeriod> findAllDepositByPeriod(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query("select distinct ah " +
+            " from AccountHistory ah " +
+            " join fetch ah.account a " +
+            " join fetch a.accountHolder h ")
+    List<AccountHistory> findAllWithAccountAndMember();
 }
